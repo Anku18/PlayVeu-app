@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _tabIndex = 0;
 
   static const _availableCredits = 20;
-  static const _titles = ['Playveuw', 'Credits', 'Bookings', 'Venues'];
+  static const _titles = ['PlayVue', 'Credits', 'Bookings', 'Venues'];
 
   void _selectTab(int index) {
     setState(() => _tabIndex = index);
@@ -177,7 +177,7 @@ class _HomeDrawer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Playveuw',
+                          'PlayVue',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,

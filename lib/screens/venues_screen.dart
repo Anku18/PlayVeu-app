@@ -7,7 +7,7 @@ class VenuesScreen extends StatelessWidget {
 
   static const List<Map<String, dynamic>> venues = [
     {
-      'name': 'Playveuw Sports Academy',
+      'name': 'PlayVue Sports Academy',
       'image': 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&auto=format&fit=crop&q=60',
       'rating': 4.6,
       'location': 'Bengaluru, Karnataka',

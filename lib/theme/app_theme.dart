@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Light-blue palette sampled from the Playveuw splash logo and app icon.
+/// Light-blue palette sampled from the PlayVue splash logo and app icon.
 abstract final class AppColors {
   static const primary = Color(0xFF1E9BE8);
   static const primaryDark = Color(0xFF0B6CB3);

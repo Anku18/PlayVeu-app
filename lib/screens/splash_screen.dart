@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Playveuw',
+                  'PlayVue',
                   style: Theme.of(
                     context,
                   ).textTheme.headlineMedium?.copyWith(letterSpacing: -0.4),

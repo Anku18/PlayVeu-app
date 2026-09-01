@@ -9,7 +9,7 @@ import 'package:playveuw_app/screens/splash_screen.dart';
 
 void main() {
   testWidgets('splash navigates to login after 3 seconds', (tester) async {
-    await tester.pumpWidget(const PlayveuwApp());
+    await tester.pumpWidget(const PlayVueApp());
 
     expect(find.byType(SplashScreen), findsOneWidget);
 
@@ -22,7 +22,7 @@ void main() {
   });
 
   testWidgets('login validates phone then OTP 1234 opens home', (tester) async {
-    await tester.pumpWidget(const PlayveuwApp());
+    await tester.pumpWidget(const PlayVueApp());
     await tester.pump(const Duration(seconds: 3));
     await tester.pump();
 
