@@ -127,11 +127,13 @@ class VenueDetailsScreen extends StatelessWidget {
                     runSpacing: 8,
                     children: (venue['games'] as List<String>).map((game) {
                       return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+                          color: AppColors.primary.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           game,
@@ -153,7 +155,7 @@ class VenueDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  ... (venue['facilities'] as List<String>).map((facility) {
+                  ...(venue['facilities'] as List<String>).map((facility) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Row(
@@ -210,17 +212,8 @@ class VenueDetailsScreen extends StatelessWidget {
         ],
       ),
       bottomSheet: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, -4),
-            ),
-          ],
-        ),
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+        decoration: AppSurfaces.bar,
         child: SafeArea(
           child: FilledButton(
             onPressed: () {

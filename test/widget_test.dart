@@ -81,9 +81,10 @@ void main() {
     expect(find.text('Logesh'), findsOneWidget);
     expect(find.text('+91 9999999999'), findsOneWidget);
     expect(find.text('20 Credits'), findsWidgets);
-    expect(find.text('Explore Games'), findsOneWidget);
-    expect(find.text('Badminton'), findsOneWidget);
+    expect(find.text('GAMES BY SPORTS'), findsOneWidget);
     expect(find.text('Box Cricket'), findsOneWidget);
+    expect(find.text('Pickleball'), findsOneWidget);
+    expect(find.text('Swimming'), findsOneWidget);
     expect(find.text('Table Tennis'), findsOneWidget);
 
     await tester.tap(find.byTooltip('Menu'));
@@ -103,15 +104,25 @@ void main() {
 
     await tester.tap(find.text('20 Credits').first);
     await tester.pumpAndSettle();
-    expect(find.text('Your Credits'), findsOneWidget);
-    expect(find.text('Buy Credits'), findsOneWidget);
+    expect(find.text('Available balance'), findsOneWidget);
+    expect(find.text('Choose a pack'), findsOneWidget);
     expect(find.text('₹100'), findsOneWidget);
     expect(find.text('₹250'), findsOneWidget);
     expect(find.text('₹1,000'), findsOneWidget);
-    expect(find.text('Buy Now'), findsNWidgets(4));
+    expect(find.text('Pay ₹250'), findsOneWidget);
 
-    await tester.tap(find.text('Buy Now').first);
+    await tester.tap(find.text('Pay ₹250'));
     await tester.pump();
-    expect(find.text('Purchase flow coming soon'), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 450));
+    await tester.pumpAndSettle();
+    expect(find.text('Payment successful'), findsOneWidget);
+    expect(find.text('+30 credits added to your wallet'), findsOneWidget);
+    expect(find.text('50'), findsWidgets);
+
+    await tester.tap(find.text('Done'));
+    await tester.pumpAndSettle();
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    expect(find.text('50 Credits'), findsWidgets);
   });
 }

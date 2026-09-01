@@ -38,11 +38,7 @@ class BookingDetailsScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.fieldBorder),
-              ),
+              decoration: AppSurfaces.card(),
               child: Row(
                 children: [
                   ClipRRect(
@@ -120,12 +116,8 @@ class BookingDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.fieldBorder),
-              ),
+              padding: const EdgeInsets.all(16),
+              decoration: AppSurfaces.card(),
               child: Column(
                 children: [
                   Row(
@@ -177,25 +169,13 @@ class BookingDetailsScreen extends StatelessWidget {
         ),
       ),
       bottomSheet: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, -4),
-            ),
-          ],
-        ),
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+        decoration: AppSurfaces.bar,
         child: SafeArea(
           child: FilledButton(
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Payment flow coming soon'),
-                  backgroundColor: AppColors.navy,
-                ),
+                const SnackBar(content: Text('Payment flow coming soon')),
               );
             },
             child: const Text('PAY'),
@@ -207,7 +187,11 @@ class BookingDetailsScreen extends StatelessWidget {
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({required this.label, required this.value, required this.icon});
+  const _InfoRow({
+    required this.label,
+    required this.value,
+    required this.icon,
+  });
 
   final String label;
   final String value;
@@ -217,15 +201,8 @@ class _InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: AppIcon(icon, color: AppColors.primary, size: 20),
-        ),
-        const SizedBox(width: 14),
+        AppIcon(icon, color: AppColors.primary, size: 20),
+        const SizedBox(width: 12),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
