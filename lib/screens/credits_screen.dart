@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../theme/app_theme.dart';
+import '../widgets/app_icon.dart';
 
 class CreditsScreen extends StatelessWidget {
   const CreditsScreen({super.key, this.credits = 20});
@@ -121,12 +123,13 @@ class _CreditsSummaryCard extends StatelessWidget {
             Container(
               width: 64,
               height: 64,
+              alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: AppColors.primary.withValues(alpha: 0.14),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.account_balance_wallet_rounded,
+              child: const AppIcon(
+                HugeIcons.strokeRoundedWallet01,
                 color: AppColors.primary,
                 size: 32,
               ),

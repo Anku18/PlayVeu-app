@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
+
 import '../theme/app_theme.dart';
+import '../widgets/app_icon.dart';
 import 'booking_details_screen.dart';
 
 class SelectSlotScreen extends StatefulWidget {
@@ -206,7 +209,10 @@ class _SelectSlotScreenState extends State<SelectSlotScreen> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.calendar_month_rounded, color: AppColors.primary),
+                    const AppIcon(
+                      HugeIcons.strokeRoundedCalendar03,
+                      color: AppColors.primary,
+                    ),
                     const SizedBox(width: 12),
                     Text(
                       _selectedDate == null 

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../theme/app_theme.dart';
+import '../widgets/app_icon.dart';
 import 'credits_screen.dart';
+import 'equipment_screen.dart';
+import 'leaderboard_screen.dart';
 import 'login_screen.dart';
+import 'play_screen.dart';
 import 'venues_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _tabIndex = 0;
 
   static const _availableCredits = 20;
-  static const _titles = ['PlayVue', 'Credits', 'Bookings', 'Venues'];
+  static const _titles = ['Home', 'Equipment', 'Venue', 'Play', 'Leaderboard'];
 
   void _selectTab(int index) {
     setState(() => _tabIndex = index);
@@ -25,6 +30,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _openDrawer() {
     _scaffoldKey.currentState?.openDrawer();
+  }
+
+  void _openCredits() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => Scaffold(
+          backgroundColor: AppColors.backgroundBottom,
+          appBar: AppBar(title: const Text('Credits')),
+          body: const CreditsScreen(credits: _availableCredits),
+        ),
+      ),
+    );
   }
 
   @override
@@ -35,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         leading: IconButton(
           tooltip: 'Menu',
-          icon: const Icon(Icons.menu_rounded),
+          icon: const AppIcon(HugeIcons.strokeRoundedMenu01, size: 22),
           onPressed: _openDrawer,
         ),
         titleSpacing: 0,
@@ -69,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SnackBar(content: Text('No new notifications')),
               );
             },
-            icon: const Icon(Icons.notifications_none_rounded),
+            icon: const AppIcon(HugeIcons.strokeRoundedNotification03, size: 22),
           ),
         ],
       ),
@@ -78,6 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
         onSelectTab: (index) {
           Navigator.of(context).pop();
           _selectTab(index);
+        },
+        onOpenCredits: () {
+          Navigator.of(context).pop();
+          _openCredits();
         },
         onPlaceholder: (label) {
           Navigator.of(context).pop();
@@ -97,15 +118,12 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           _HomeDashboard(
             credits: _availableCredits,
-            onOpenCredits: () => _selectTab(1),
+            onOpenCredits: _openCredits,
           ),
-          const CreditsScreen(credits: _availableCredits),
-          _PlaceholderSection(
-            title: 'Bookings',
-            message: 'Your bookings will appear here.',
-            icon: Icons.calendar_month_rounded,
-          ),
+          const EquipmentScreen(),
           const VenuesScreen(),
+          const PlayScreen(),
+          const LeaderboardScreen(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -113,24 +131,44 @@ class _HomeScreenState extends State<HomeScreen> {
         onDestinationSelected: _selectTab,
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home_rounded),
+            icon: AppIcon(HugeIcons.strokeRoundedHome01),
+            selectedIcon: AppIcon(
+              HugeIcons.strokeRoundedHome01,
+              strokeWidth: 2.4,
+            ),
             label: 'Home',
           ),
           NavigationDestination(
-            icon: Icon(Icons.account_balance_wallet_outlined),
-            selectedIcon: Icon(Icons.account_balance_wallet_rounded),
-            label: 'Credits',
+            icon: AppIcon(HugeIcons.strokeRoundedDumbbell02),
+            selectedIcon: AppIcon(
+              HugeIcons.strokeRoundedDumbbell02,
+              strokeWidth: 2.4,
+            ),
+            label: 'Equipment',
           ),
           NavigationDestination(
-            icon: Icon(Icons.calendar_month_outlined),
-            selectedIcon: Icon(Icons.calendar_month_rounded),
-            label: 'Bookings',
+            icon: AppIcon(HugeIcons.strokeRoundedLocation01),
+            selectedIcon: AppIcon(
+              HugeIcons.strokeRoundedLocation01,
+              strokeWidth: 2.4,
+            ),
+            label: 'Venue',
           ),
           NavigationDestination(
-            icon: Icon(Icons.location_on_outlined),
-            selectedIcon: Icon(Icons.location_on_rounded),
-            label: 'Venues',
+            icon: AppIcon(HugeIcons.strokeRoundedWorkoutRun),
+            selectedIcon: AppIcon(
+              HugeIcons.strokeRoundedWorkoutRun,
+              strokeWidth: 2.4,
+            ),
+            label: 'Play',
+          ),
+          NavigationDestination(
+            icon: AppIcon(HugeIcons.strokeRoundedChampion),
+            selectedIcon: AppIcon(
+              HugeIcons.strokeRoundedChampion,
+              strokeWidth: 2.4,
+            ),
+            label: 'Leaderboard',
           ),
         ],
       ),
@@ -142,12 +180,14 @@ class _HomeDrawer extends StatelessWidget {
   const _HomeDrawer({
     required this.selectedTab,
     required this.onSelectTab,
+    required this.onOpenCredits,
     required this.onPlaceholder,
     required this.onLogout,
   });
 
   final int selectedTab;
   final ValueChanged<int> onSelectTab;
+  final VoidCallback onOpenCredits;
   final ValueChanged<String> onPlaceholder;
   final VoidCallback onLogout;
 
@@ -203,45 +243,61 @@ class _HomeDrawer extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 children: [
                   _DrawerTile(
-                    icon: Icons.person_outline_rounded,
+                    icon: HugeIcons.strokeRoundedUser,
                     label: 'Profile',
                     onTap: () => onPlaceholder('Profile'),
                   ),
                   _DrawerTile(
-                    icon: Icons.home_outlined,
+                    icon: HugeIcons.strokeRoundedHome01,
                     label: 'Home',
                     selected: selectedTab == 0,
                     onTap: () => onSelectTab(0),
                   ),
                   _DrawerTile(
-                    icon: Icons.account_balance_wallet_outlined,
-                    label: 'Credits',
+                    icon: HugeIcons.strokeRoundedDumbbell02,
+                    label: 'Equipment',
                     selected: selectedTab == 1,
                     onTap: () => onSelectTab(1),
                   ),
                   _DrawerTile(
-                    icon: Icons.calendar_month_outlined,
-                    label: 'Bookings',
+                    icon: HugeIcons.strokeRoundedLocation01,
+                    label: 'Venue',
                     selected: selectedTab == 2,
                     onTap: () => onSelectTab(2),
                   ),
                   _DrawerTile(
-                    icon: Icons.location_on_outlined,
-                    label: 'Venues',
+                    icon: HugeIcons.strokeRoundedWorkoutRun,
+                    label: 'Play',
                     selected: selectedTab == 3,
                     onTap: () => onSelectTab(3),
                   ),
                   _DrawerTile(
-                    icon: Icons.settings_outlined,
-                    label: 'Settings',
-                    onTap: () => onPlaceholder('Settings'),
+                    icon: HugeIcons.strokeRoundedChampion,
+                    label: 'Leaderboard',
+                    selected: selectedTab == 4,
+                    onTap: () => onSelectTab(4),
+                  ),
+                  _DrawerTile(
+                    icon: HugeIcons.strokeRoundedWallet01,
+                    label: 'Credits',
+                    onTap: onOpenCredits,
+                  ),
+                  _DrawerTile(
+                    icon: HugeIcons.strokeRoundedCalendar03,
+                    label: 'Bookings',
+                    onTap: () => onPlaceholder('Bookings'),
                   ),
                 ],
               ),
             ),
             const Divider(height: 1, color: AppColors.fieldBorder),
             _DrawerTile(
-              icon: Icons.logout_rounded,
+              icon: HugeIcons.strokeRoundedSettings01,
+              label: 'Settings',
+              onTap: () => onPlaceholder('Settings'),
+            ),
+            _DrawerTile(
+              icon: HugeIcons.strokeRoundedLogout01,
               label: 'Logout',
               onTap: onLogout,
             ),
@@ -261,7 +317,7 @@ class _DrawerTile extends StatelessWidget {
     this.selected = false,
   });
 
-  final IconData icon;
+  final List<List<dynamic>> icon;
   final String label;
   final VoidCallback onTap;
   final bool selected;
@@ -269,7 +325,11 @@ class _DrawerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: selected ? AppColors.primary : AppColors.navy),
+      leading: AppIcon(
+        icon,
+        size: 22,
+        color: selected ? AppColors.primary : AppColors.navy,
+      ),
       title: Text(
         label,
         style: TextStyle(
@@ -292,14 +352,14 @@ class _HomeDashboard extends StatelessWidget {
   final int credits;
   final VoidCallback onOpenCredits;
 
-  static const _games = <(String, IconData)>[
-    ('Badminton', Icons.sports_tennis_rounded),
-    ('Football', Icons.sports_soccer_rounded),
-    ('Box Cricket', Icons.sports_cricket_rounded),
-    ('Carrom', Icons.album_rounded),
-    ('Chess', Icons.castle_rounded),
-    ('Table Tennis', Icons.sports_rounded),
-    ('Cycling', Icons.pedal_bike_rounded),
+  static const _games = <(String, List<List<dynamic>>)>[
+    ('Badminton', HugeIcons.strokeRoundedBadminton),
+    ('Football', HugeIcons.strokeRoundedFootball),
+    ('Box Cricket', HugeIcons.strokeRoundedCricketBat),
+    ('Carrom', HugeIcons.strokeRoundedGame),
+    ('Chess', HugeIcons.strokeRoundedChessKing),
+    ('Table Tennis', HugeIcons.strokeRoundedTableTennisBat),
+    ('Cycling', HugeIcons.strokeRoundedBicycle01),
   ];
 
   @override
@@ -477,10 +537,12 @@ class _ProfileCard extends StatelessWidget {
                     child: const SizedBox(
                       width: 36,
                       height: 36,
-                      child: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 14,
-                        color: AppColors.primary,
+                      child: Center(
+                        child: AppIcon(
+                          HugeIcons.strokeRoundedArrowRight01,
+                          size: 16,
+                          color: AppColors.primary,
+                        ),
                       ),
                     ),
                   ),
@@ -501,8 +563,8 @@ class _ProfileCard extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      const Icon(
-                        Icons.account_balance_wallet_rounded,
+                      const AppIcon(
+                        HugeIcons.strokeRoundedWallet01,
                         size: 20,
                         color: AppColors.primaryDark,
                       ),
@@ -531,7 +593,7 @@ class _GameCard extends StatelessWidget {
   const _GameCard({required this.name, required this.icon});
 
   final String name;
-  final IconData icon;
+  final List<List<dynamic>> icon;
 
   @override
   Widget build(BuildContext context) {
@@ -550,11 +612,12 @@ class _GameCard extends StatelessWidget {
               Container(
                 width: 52,
                 height: 52,
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: Icon(icon, color: AppColors.primary, size: 28),
+                child: AppIcon(icon, color: AppColors.primary, size: 28),
               ),
               const SizedBox(height: 12),
               Text(
@@ -577,52 +640,3 @@ class _GameCard extends StatelessWidget {
   }
 }
 
-class _PlaceholderSection extends StatelessWidget {
-  const _PlaceholderSection({
-    required this.title,
-    required this.message,
-    required this.icon,
-  });
-
-  final String title;
-  final String message;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 72,
-              height: 72,
-              decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.12),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: AppColors.primary, size: 34),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: AppColors.navy,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: AppColors.textSecondary),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

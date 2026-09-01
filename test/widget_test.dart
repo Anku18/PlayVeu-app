@@ -95,8 +95,14 @@ void main() {
     await tester.tap(find.widgetWithText(ListTile, 'Home'));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Credits').last);
-    await tester.pump();
+    expect(find.text('Home'), findsWidgets);
+    expect(find.text('Equipment'), findsWidgets);
+    expect(find.text('Venue'), findsWidgets);
+    expect(find.text('Play'), findsWidgets);
+    expect(find.text('Leaderboard'), findsWidgets);
+
+    await tester.tap(find.text('20 Credits').first);
+    await tester.pumpAndSettle();
     expect(find.text('Your Credits'), findsOneWidget);
     expect(find.text('Buy Credits'), findsOneWidget);
     expect(find.text('₹100'), findsOneWidget);

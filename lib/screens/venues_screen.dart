@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
+
 import '../theme/app_theme.dart';
+import '../widgets/app_icon.dart';
 import 'venue_details_screen.dart';
 
 class VenuesScreen extends StatelessWidget {
@@ -124,7 +127,11 @@ class _VenueCard extends StatelessWidget {
                   errorBuilder: (context, error, stackTrace) => Container(
                     height: 160,
                     color: AppColors.primarySoft.withValues(alpha: 0.2),
-                    child: const Icon(Icons.image, color: AppColors.primary, size: 50),
+                    child: const AppIcon(
+                      HugeIcons.strokeRoundedImageNotFound01,
+                      color: AppColors.primary,
+                      size: 50,
+                    ),
                   ),
                 ),
               ),
@@ -145,8 +152,8 @@ class _VenueCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Icon(
-                          Icons.arrow_forward_ios_rounded,
+                        const AppIcon(
+                          HugeIcons.strokeRoundedArrowRight01,
                           size: 16,
                           color: AppColors.textSecondary,
                         ),
@@ -155,7 +162,11 @@ class _VenueCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        const Icon(Icons.star_rounded, color: Colors.amber, size: 18),
+                        const AppIcon(
+                          HugeIcons.strokeRoundedStar,
+                          color: Colors.amber,
+                          size: 18,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           venue['rating'].toString(),
@@ -170,7 +181,11 @@ class _VenueCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(Icons.location_on_rounded, color: AppColors.primary, size: 16),
+                        const AppIcon(
+                          HugeIcons.strokeRoundedLocation01,
+                          color: AppColors.primary,
+                          size: 16,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           venue['location'],

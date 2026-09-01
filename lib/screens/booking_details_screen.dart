@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
+
 import '../theme/app_theme.dart';
+import '../widgets/app_icon.dart';
 
 class BookingDetailsScreen extends StatelessWidget {
   const BookingDetailsScreen({super.key, required this.bookingData});
@@ -84,25 +87,25 @@ class BookingDetailsScreen extends StatelessWidget {
             _InfoRow(
               label: 'Game',
               value: bookingData['game'],
-              icon: Icons.sports_tennis_rounded,
+              icon: HugeIcons.strokeRoundedBadminton,
             ),
             const SizedBox(height: 16),
             _InfoRow(
               label: 'Date',
               value: bookingData['date'],
-              icon: Icons.calendar_month_rounded,
+              icon: HugeIcons.strokeRoundedCalendar03,
             ),
             const SizedBox(height: 16),
             _InfoRow(
               label: 'Time',
               value: '${bookingData['startTime']} - ${bookingData['endTime']}',
-              icon: Icons.access_time_rounded,
+              icon: HugeIcons.strokeRoundedClock01,
             ),
             const SizedBox(height: 16),
             _InfoRow(
               label: 'Duration',
               value: bookingData['duration'],
-              icon: Icons.timer_outlined,
+              icon: HugeIcons.strokeRoundedTimer01,
             ),
             const SizedBox(height: 32),
 
@@ -208,7 +211,7 @@ class _InfoRow extends StatelessWidget {
 
   final String label;
   final String value;
-  final IconData icon;
+  final List<List<dynamic>> icon;
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +223,7 @@ class _InfoRow extends StatelessWidget {
             color: AppColors.primary.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(icon, color: AppColors.primary, size: 20),
+          child: AppIcon(icon, color: AppColors.primary, size: 20),
         ),
         const SizedBox(width: 14),
         Column(
