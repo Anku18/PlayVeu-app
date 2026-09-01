@@ -1,0 +1,111 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import 'package:playveuw_app/main.dart';
+import 'package:playveuw_app/screens/home_screen.dart';
+import 'package:playveuw_app/screens/login_screen.dart';
+import 'package:playveuw_app/screens/otp_verification_screen.dart';
+import 'package:playveuw_app/screens/splash_screen.dart';
+
+void main() {
+  testWidgets('splash navigates to login after 3 seconds', (tester) async {
+    await tester.pumpWidget(const PlayveuwApp());
+
+    expect(find.byType(SplashScreen), findsOneWidget);
+
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+
+    expect(find.byType(LoginScreen), findsOneWidget);
+    expect(find.text('Get Started'), findsOneWidget);
+    expect(find.text('Send OTP'), findsOneWidget);
+  });
+
+  testWidgets('login validates phone then OTP 1234 opens home', (tester) async {
+    await tester.pumpWidget(const PlayveuwApp());
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+
+    await tester.tap(find.text('Send OTP'));
+    await tester.pump();
+    expect(find.text('Enter your 10-digit mobile number'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextFormField), '12345');
+    await tester.tap(find.text('Send OTP'));
+    await tester.pump();
+    expect(
+      find.text('Enter a valid 10-digit Indian mobile number'),
+      findsOneWidget,
+    );
+
+    await tester.enterText(find.byType(TextFormField), '8888888888');
+    await tester.tap(find.text('Send OTP'));
+    await tester.pump();
+    expect(find.text('Enter a valid 10-digit mobile number'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextFormField), '9999999999');
+    await tester.tap(find.text('Send OTP'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump();
+
+    expect(find.byType(OtpVerificationScreen), findsOneWidget);
+    expect(find.textContaining('+91 99999 99999'), findsOneWidget);
+
+    await tester.tap(find.text('Verify'));
+    await tester.pump();
+    expect(find.text('Enter the 4-digit OTP'), findsOneWidget);
+
+    final otpFields = find.descendant(
+      of: find.byType(OtpVerificationScreen),
+      matching: find.byType(TextField),
+    );
+    await tester.enterText(otpFields.at(0), '0');
+    await tester.enterText(otpFields.at(1), '0');
+    await tester.enterText(otpFields.at(2), '0');
+    await tester.enterText(otpFields.at(3), '0');
+    await tester.tap(find.text('Verify'));
+    await tester.pump();
+    expect(find.text('Incorrect OTP. Please try again.'), findsOneWidget);
+
+    await tester.enterText(otpFields.at(0), '1');
+    await tester.enterText(otpFields.at(1), '2');
+    await tester.enterText(otpFields.at(2), '3');
+    await tester.enterText(otpFields.at(3), '4');
+    await tester.tap(find.text('Verify'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump();
+
+    expect(find.byType(HomeScreen), findsOneWidget);
+    expect(find.text('Logesh'), findsOneWidget);
+    expect(find.text('+91 9999999999'), findsOneWidget);
+    expect(find.text('20 Credits'), findsWidgets);
+    expect(find.text('Explore Games'), findsOneWidget);
+    expect(find.text('Badminton'), findsOneWidget);
+    expect(find.text('Box Cricket'), findsOneWidget);
+    expect(find.text('Table Tennis'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('Menu'));
+    await tester.pumpAndSettle();
+    expect(find.widgetWithText(ListTile, 'Profile'), findsOneWidget);
+    expect(find.widgetWithText(ListTile, 'Settings'), findsOneWidget);
+    expect(find.widgetWithText(ListTile, 'Logout'), findsOneWidget);
+
+    await tester.tap(find.widgetWithText(ListTile, 'Home'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Credits').last);
+    await tester.pump();
+    expect(find.text('Your Credits'), findsOneWidget);
+    expect(find.text('Buy Credits'), findsOneWidget);
+    expect(find.text('₹100'), findsOneWidget);
+    expect(find.text('₹250'), findsOneWidget);
+    expect(find.text('₹1,000'), findsOneWidget);
+    expect(find.text('Buy Now'), findsNWidgets(4));
+
+    await tester.tap(find.text('Buy Now').first);
+    await tester.pump();
+    expect(find.text('Purchase flow coming soon'), findsOneWidget);
+  });
+}
